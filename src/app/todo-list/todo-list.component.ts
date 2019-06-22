@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoService } from '../todo.service';
 import { NgRedux, select } from '@angular-redux/store';
-import { todoState } from '../store/state';
+import { todoState, todoItem } from '../store/state';
 import { Action } from "../action/todoaction";
 import { todoActionEnum } from "../action/todoaction";
 
@@ -12,6 +12,7 @@ import { todoActionEnum } from "../action/todoaction";
 })
 export class TodoListComponent {
   // Read the comment in TodoService
+  @select((s: todoState) => s.todo) todos;
   constructor(private ngRedux: NgRedux<todoState>) {
 
   }
@@ -19,16 +20,20 @@ export class TodoListComponent {
   addTodo(input) {
     if (!input.value) return;
 
-    this.service.addTodo(input.value);
+
+    this.ngRedux.dispatch({ type: todoActionEnum.addTodo, payload: { todoItem: input.value, lastUpdate: new Date() } });
+
+    //this.ngRedux.addTodo(input.value);
 
     input.value = '';
   }
 
-  toggleTodo(todo) {
-    this.service.toggleTodo(todo);
+  toggleTodo(todo: todoItem) {
+    this.ngRedux.dispatch({ type: todoActionEnum.toggleTodo, payload: { lastUpdate: new Date(), isCompleted: todo.isCompleted } });
+
   }
 
-  removeTodo(todo) {
-    this.service.removeTodo(todo);
+  removeTodo(todo: todoItem) {
+    this.ngRedux.dispatch({ type: todoActionEnum.removeTodo, payload: { todoItem: todo, lastUpdate: new Date() } });
   }
 }

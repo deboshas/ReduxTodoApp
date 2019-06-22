@@ -15,11 +15,11 @@ export function todoReducer(state: todoState, action: Action) {
         case todoActionEnum.removeTodo: {
 
             let todoItem = state.todo.filter(x => x.id != action.payload.todoItem.id);
-            return tassign(state, { todo: todoItem, lastUpdate: action.payload.lastUpdate, isCompleted: action.payload.isCompleted })
+            return tassign(state, { todo: todoItem, lastUpdate: action.payload.lastUpdate })
         }
         case todoActionEnum.toggleTodo: {
 
-            return tassign(state, { isCompleted: !action.payload.isCompleted })
+            return tassign(state, { lastUpdate: action.payload.lastUpdate, isCompleted: !action.payload.isCompleted })
         }
 
         case todoActionEnum.clearTodos: {

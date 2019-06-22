@@ -1,6 +1,7 @@
 export interface todoItem {
     id: string,
-    title: string
+    title: string,
+    isCompleted: boolean
 }
 
 
