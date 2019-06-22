@@ -1,18 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
+import { TodoDashboardComponent } from './todo-dashboard/todo-dashboard.component';
+import { TodoService } from './todo.service';
+import { NgRedux } from '@angular-redux/store';
+import { todoState, todoInitializeState } from './store/state';
+import { todoReducer } from './reducer/todoreducer';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TodoListComponent,
+    TodoDashboardComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [TodoService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private ngRedux: NgRedux<todoState>) {
+
+    this.ngRedux.configureStore(todoReducer, todoInitializeState);
+
+  }
+}
