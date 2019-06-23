@@ -12,24 +12,27 @@ import { todoActionEnum } from "../action/todoaction";
 })
 export class TodoListComponent {
   // Read the comment in TodoService
-  @select((s: todoState) => s.todo) todos;
+  @select((s: todoState) => s.todo) todos: todoItem[];
   constructor(private ngRedux: NgRedux<todoState>) {
 
   }
 
   addTodo(input) {
     if (!input.value) return;
+    let payload = {
+      title: input.value,
+      isCompleted: false
 
-
-    this.ngRedux.dispatch({ type: todoActionEnum.addTodo, payload: { todoItem: input.value, lastUpdate: new Date() } });
-
-    //this.ngRedux.addTodo(input.value);
+    }
+    this.ngRedux.dispatch({ type: todoActionEnum.addTodo, payload: { todoItem: payload, lastUpdate: new Date() } });
 
     input.value = '';
   }
 
   toggleTodo(todo: todoItem) {
-    this.ngRedux.dispatch({ type: todoActionEnum.toggleTodo, payload: { lastUpdate: new Date(), isCompleted: todo.isCompleted } });
+
+    todo.isCompleted = !todo.isCompleted;
+    this.ngRedux.dispatch({ type: todoActionEnum.toggleTodo, payload: { todoItem: todo, lastUpdate: new Date() } });
 
   }
 

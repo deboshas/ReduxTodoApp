@@ -1,5 +1,5 @@
 export interface todoItem {
-    id: string,
+    id: number,
     title: string,
     isCompleted: boolean
 }
@@ -7,15 +7,15 @@ export interface todoItem {
 
 export interface todoState {
     todo: todoItem[]
-    lastUpdate: string,
-    isCompleted: boolean
+    lastUpdate: string
+
 
 }
 
 export const todoInitializeState: todoState = {
     todo: [],
-    lastUpdate: "",
-    isCompleted: false
+    lastUpdate: ""
+
 
 
 }
